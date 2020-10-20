@@ -285,16 +285,25 @@ class WgCli:
         self.restore_conf_backup()
 
     """
-    Restart Wireguard services (in Ubuntu)
+    Stop Wireguard services (in Ubuntu)
     """
 
-    def restart(self):
+    def stop(self):
         if self.verify_params() == False:
             print("Parameters are not set")
             return
-        if os.system("bash -c \"wg addconf " + self.interface +
-                     " <(wg-quick strip " +
-                     self.interface + ")\"") == 0:
-            if os.system("service wg-quick@" + self.interface + " restart") == 0:
-                return True
+        if os.system("service wg-quick@" + self.interface + " stop") == 0:
+            return True
+        return False
+
+    """
+    Start Wireguard services (in Ubuntu)
+    """
+
+    def start(self):
+        if self.verify_params() == False:
+            print("Parameters are not set")
+            return
+        if os.system("service wg-quick@" + self.interface + " start") == 0:
+            return True
         return False

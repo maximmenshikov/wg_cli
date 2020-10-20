@@ -103,13 +103,14 @@ elif args.action == WgCliAction.del_user:
 
 cli.make_backup()
 print("Backup taken")
+cli.stop()
 cli.write()
 print("Configuration written")
 success = not args.reload
 
 if args.reload:
     print("Injecting configuration to Wireguard...")
-    if cli.restart() == True:
+    if cli.start() == True:
         success = True
         print(" -- OK")
 else:
@@ -120,4 +121,5 @@ if success:
 else:
     cli.restore_backup()
     print("Failed, backup restored")
-    cli.restart()
+    cli.stop()
+    cli.start()
