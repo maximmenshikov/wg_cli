@@ -170,6 +170,8 @@ class WgCli:
             print("Parameters are not set")
             return
 
+        if os.path.exists(self.user_path):
+            shutil.rmtree(self.user_path)
         pathlib.Path(self.user_path).mkdir(parents=True, exist_ok=True)
 
         for user in self.users:
